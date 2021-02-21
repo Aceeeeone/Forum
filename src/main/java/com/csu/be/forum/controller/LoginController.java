@@ -23,14 +23,14 @@ public class LoginController {
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String getRegister(){
-        return "site/register";
+        return "/site/register";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String regisiter(Model model, User user){
         Map<String, Object> map = userService.register(user);
         if (map == null || map.isEmpty()) {
-            model.addAttribute("msg", "注册成功，我们已经向您的注册邮箱发送了一封激活邮件，请尽快激活！")；
+            model.addAttribute("msg", "注册成功，我们已经向您的注册邮箱发送了一封激活邮件，请尽快激活！");
             model.addAttribute("target", "/index");
             return "/site/operate-result";
         } else {
