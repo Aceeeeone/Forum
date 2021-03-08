@@ -1,15 +1,17 @@
 package com.csu.be.forum.service;
 
+import com.csu.be.forum.dao.LoginTicketMapper;
 import com.csu.be.forum.dao.UserMapper;
+import com.csu.be.forum.entity.LoginTicket;
 import com.csu.be.forum.entity.User;
-import com.csu.be.forum.util.CommunityUtil;
+import com.csu.be.forum.util.ForumConstant;
+import com.csu.be.forum.util.ForumUtil;
 import com.csu.be.forum.util.MailClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.Thymeleaf;
 import org.thymeleaf.context.Context;
 
 import java.util.Date;
@@ -23,10 +25,13 @@ import java.util.Random;
  * @date 2021/1/31 23:15
  */
 @Service
-public class UserService {
+public class UserService implements ForumConstant {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Autowired
     private MailClient mailClient;
@@ -37,13 +42,15 @@ public class UserService {
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-    @Value("${community.path.domian}")
+    @Value("${forum.path.domian}")
     private String domian;
 
+    //查找用户
     public User findUserById(int id) {
         return userMapper.selectById(id);
     }
 
+    //注册
     public Map<String, Object> register(User user) {
         Map<String, Object> map = new HashMap<>();
 
@@ -67,7 +74,7 @@ public class UserService {
         // 验证重复
         User u = userMapper.selectByName(user.getUsername());
         if (u != null) {
-            map.put("userNameMsg", "账号已存在！");
+            map.put("usernameMsg", "账号已存在！");
             return map;
         }
 
@@ -78,11 +85,11 @@ public class UserService {
         }
 
         // 注册用户
-        user.setSalt(CommunityUtil.generateUUID().substring(0, 5));
-        user.setPassword(CommunityUtil.MD5(user.getPassword() + user.getSalt()));
+        user.setSalt(ForumUtil.generateUUID().substring(0, 5));
+        user.setPassword(ForumUtil.MD5(user.getPassword() + user.getSalt()));
         user.setType(0);
         user.setStatus(0);
-        user.setActivationCode(CommunityUtil.generateUUID());
+        user.setActivationCode(ForumUtil.generateUUID());
         user.setHeaderUrl(String.format("http://images.newcoder.com/head/%dt.png", new Random().nextInt(1000)));
         user.setCreateTime(new Date());
         userMapper.insertUser(user);
@@ -97,7 +104,104 @@ public class UserService {
         mailClient.sendMail(user.getEmail(), "论坛账号激活", content);
 
         return map;
-
     }
 
+    //激活
+    public int activation(int userId, String code) {
+        User user = userMapper.selectById(userId);
+        if (user.getStatus() == 1) {
+            return ForumConstant.ACTIVATION_REPEAT;
+        } else if (user.getActivationCode().equals(code)) {
+            userMapper.updateStatus(userId, 1);
+            return ForumConstant.ACTIVATION_SUCCESS;
+        } else {
+            return ForumConstant.ACTIVATION_FAILURE;
+        }
+    }
+
+    //登陆
+    public Map<String, Object> login(String username, String password, int expiredSeconds) {
+        Map<String, Object> map = new HashMap<>();
+
+        //空值处理
+        if (StringUtils.isBlank(username)) {
+            map.put("usernameMsg", "账号不能为空！");
+            return map;
+        }
+        if (StringUtils.isBlank(password)) {
+            map.put("passwordMsg", "密码不能为空！");
+            return map;
+        }
+
+        //验证账号
+        User user = userMapper.selectByName(username);
+        if (user == null) {
+            map.put("usernameMsg", "账号不存在！");
+            return map;
+        }
+
+        if (user.getStatus() == 0) {
+            map.put("usernameMsg", "该账号未激活！");
+            return map;
+        }
+
+        password = ForumUtil.MD5(password + user.getSalt());
+        if (!user.getPassword().equals(password)) {
+            map.put("passwordMsg", "密码错误！");
+            return map;
+        }
+
+        //生成登陆凭证
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(user.getId());
+        loginTicket.setTicket(ForumUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+
+        map.put("ticket", loginTicket.getTicket());
+        return map;
+    }
+
+    //退出登陆
+    public void logout(String ticket) {
+        loginTicketMapper.updateStatus(ticket, 1);
+    }
+
+    //查找登陆凭证
+    public LoginTicket findLoginTicket(String ticket){
+        return loginTicketMapper.selectByTicket(ticket);
+    }
+
+    //更新头像
+    public int updateHeader(int userId, String headerUrl){
+        return userMapper.updateHeader(userId, headerUrl);
+    }
+
+    //更新密码
+    public Map<String, Object> updatePassword(User user, String oldPassword, String newPassword){
+        Map<String, Object> map = new HashMap<>();
+
+        oldPassword = ForumUtil.MD5(oldPassword + user.getSalt());
+        if (!user.getPassword().equals(oldPassword)) {
+            map.put("oldPasError", "原密码不正确！");
+            return map;
+        }
+
+        if (newPassword == null) {
+            map.put("newPasError", "新密码不能为空！");
+            return map;
+        }
+
+        int userId = user.getId();
+        newPassword = ForumUtil.MD5(newPassword + user.getSalt());
+        userMapper.updatePassword(userId, newPassword);
+
+        return map;
+    }
+
+
+    public User findUserByName(String username) {
+        return userMapper.selectByName(username);
+    }
 }
