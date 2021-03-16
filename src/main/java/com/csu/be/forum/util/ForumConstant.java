@@ -3,7 +3,7 @@ package com.csu.be.forum.util;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/23 0:11
+ * @date 2021/2/23 0:11
  */
 public interface ForumConstant {
     //激活成功

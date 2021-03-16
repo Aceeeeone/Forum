@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/12/29 15:37
+ * @date 2021/12/29 15:37
  */
 public class User {
 

@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/3/12 17:34
+ * @date 2021/3/12 17:34
  */
 @Component
 public class EventConsumer implements ForumConstant {

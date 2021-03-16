@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/1/31 23:15
+ * @date 2021/1/31 23:15
  */
 @Service
 public class UserService implements ForumConstant {

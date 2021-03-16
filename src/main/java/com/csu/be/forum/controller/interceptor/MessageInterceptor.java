@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/3/16 0:30
+ * @date 2021/3/16 0:30
  */
 @Component
 public class MessageInterceptor implements HandlerInterceptor {

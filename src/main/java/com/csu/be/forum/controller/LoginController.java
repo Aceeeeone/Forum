@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/21 0:10
+ * @date 2021/2/21 0:10
  */
 @Controller
 public class LoginController implements ForumConstant {

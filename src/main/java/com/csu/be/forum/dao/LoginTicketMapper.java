@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Update;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/24 20:56
+ * @date 2021/2/24 20:56
  */
 @Mapper
 @Deprecated

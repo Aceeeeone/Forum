@@ -17,7 +17,7 @@ import java.util.Date;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/25 21:55
+ * @date 2021/2/25 21:55
  */
 @Component
 public class LoginTicketInterceptor implements HandlerInterceptor {

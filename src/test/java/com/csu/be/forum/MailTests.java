@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/20 23:44
+ * @date 2021/2/20 23:44
  */
 @SpringBootTest
 @ContextConfiguration(classes = ForumApplication.class)

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/3/12 17:33
+ * @date 2021/3/12 17:33
  */
 @Component
 public class EventProducer {

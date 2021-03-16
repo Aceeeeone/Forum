@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/20 23:11
+ * @date 2021/2/20 23:11
  */
 @Component
 public class MailClient {

@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/3/7 16:02
+ * @date 2021/3/7 16:02
  */
 @Controller
 public class FollowController implements ForumConstant {

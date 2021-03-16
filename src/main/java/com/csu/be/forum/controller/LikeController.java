@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/3/7 1:43
+ * @date 2021/3/7 1:43
  */
 @Controller
 public class LikeController implements ForumConstant {

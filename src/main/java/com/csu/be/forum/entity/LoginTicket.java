@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/24 20:52
+ * @date 2021/2/24 20:52
  */
 public class LoginTicket {
 

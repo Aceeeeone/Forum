@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/24 17:38
+ * @date 2021/2/24 17:38
  */
 @Configuration
 public class KaptchaConfig {

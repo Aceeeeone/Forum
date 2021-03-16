@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/2/26 1:36
+ * @date 2021/2/26 1:36
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {

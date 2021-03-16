@@ -24,7 +24,7 @@ import java.util.*;
 /**
  * @author nql
  * @version 1.0
- * @date 2020/3/1 0:42
+ * @date 2021/3/1 0:42
  */
 @Controller
 @RequestMapping("/discuss")
