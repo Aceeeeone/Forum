@@ -9,7 +9,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/3/7 0:27
+ * @date 2020/3/7 0:27
  */
 @Configuration
 public class RedisConfig {

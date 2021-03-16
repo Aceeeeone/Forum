@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/2/21 0:40
+ * @date 2020/2/21 0:40
  */
 public class ForumUtil {
 

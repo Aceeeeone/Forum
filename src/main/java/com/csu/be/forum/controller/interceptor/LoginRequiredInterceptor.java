@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/2/27 16:31
+ * @date 2020/2/27 16:31
  */
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor {

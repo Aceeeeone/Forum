@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/3/1 22:08
+ * @date 2020/3/1 22:08
  */
 @Service
 public class CommentService implements ForumConstant {
@@ -52,5 +52,9 @@ public class CommentService implements ForumConstant {
             discussPostService.updateCommentCount(comment.getEntityId(), count);
         }
         return rows;
+    }
+
+    public Comment findCommentById(int id) {
+        return commentMapper.selectCommentById(id);
     }
 }

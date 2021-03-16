@@ -3,7 +3,7 @@ package com.csu.be.forum.util;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/3/7 1:14
+ * @date 2020/3/7 1:14
  */
 
 public class RedisKeyUtil {
@@ -40,5 +40,15 @@ public class RedisKeyUtil {
     // 验证码 kaptcha:owner -> value
     public static String getKaptcharKey(String owner) {
         return KAPTCHAR + SPLIT + owner;
+    }
+
+    // 登录凭证
+    public static String getTicketKey(String ticket) {
+        return PREFIX_TICKET + SPLIT + ticket;
+    }
+
+    // 用户
+    public static String getUserKey(int userId) {
+        return PREFIX_USER + SPLIT + userId;
     }
 }

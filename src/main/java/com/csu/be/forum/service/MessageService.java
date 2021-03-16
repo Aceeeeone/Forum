@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/3/4 18:38
+ * @date 2020/3/4 18:38
  */
 @Service
 public class MessageService {
@@ -51,6 +51,22 @@ public class MessageService {
 
     public int readMessage(List<Integer> ids) {
         return messageMapper.updateStatus(ids, 1);
+    }
+
+    public Message findLatestNotice(int userId, String topic) {
+        return messageMapper.selectLatestNotice(userId, topic);
+    }
+
+    public int findNoticeCount(int userId, String topic) {
+        return messageMapper.selectNoticeCount(userId, topic);
+    }
+
+    public int findNoticeUnreadCount(int userId, String topic) {
+        return messageMapper.selectNoticeUnreadCount(userId, topic);
+    }
+
+    public List<Message> findNotices(int userId, String topic, int offset, int limit) {
+        return messageMapper.selectNotices(userId, topic, offset, limit);
     }
 
 }

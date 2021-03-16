@@ -1,7 +1,9 @@
 package com.csu.be.forum.controller;
 
+import com.csu.be.forum.entity.Event;
 import com.csu.be.forum.entity.Page;
 import com.csu.be.forum.entity.User;
+import com.csu.be.forum.event.EventProducer;
 import com.csu.be.forum.service.FollowService;
 import com.csu.be.forum.service.UserService;
 import com.csu.be.forum.util.ForumConstant;
@@ -21,7 +23,7 @@ import java.util.Map;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/3/7 16:02
+ * @date 2020/3/7 16:02
  */
 @Controller
 public class FollowController implements ForumConstant {
@@ -35,12 +37,24 @@ public class FollowController implements ForumConstant {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EventProducer eventProducer;
+
     @RequestMapping(path = "/follow", method = RequestMethod.POST)
     @ResponseBody
     public String follow(int entityType, int entityId) {
         User user = hostHolder.getUser();
 
         followService.follow(user.getId(), entityType, entityId);
+
+        // 触发关注事件
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
 
         return ForumUtil.getJSONString(0, "已关注！");
     }

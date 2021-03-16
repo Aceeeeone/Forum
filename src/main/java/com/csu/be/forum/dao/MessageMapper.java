@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/3/4 17:30
+ * @date 2020/3/4 17:30
  */
 @Mapper
 public interface MessageMapper {
@@ -26,4 +26,13 @@ public interface MessageMapper {
     int insertMessage(Message message);
 
     int updateStatus(List<Integer> ids, int status);
+
+    Message selectLatestNotice(int userId, String topic);
+
+    int selectNoticeCount(int userId, String topic);
+
+    int selectNoticeUnreadCount(int userId, String topic);
+
+    List<Message> selectNotices(int userId, String topic, int offset, int limit);
+
 }

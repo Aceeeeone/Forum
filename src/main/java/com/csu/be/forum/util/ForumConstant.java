@@ -3,7 +3,7 @@ package com.csu.be.forum.util;
 /**
  * @author nql
  * @version 1.0
- * @date 2021/2/23 0:11
+ * @date 2020/2/23 0:11
  */
 public interface ForumConstant {
     //激活成功
@@ -29,4 +29,16 @@ public interface ForumConstant {
 
     //类型：用户
     int ENTITY_TYPE_User = 3;
+
+    // 主题: 评论
+    String TOPIC_COMMENT = "comment";
+
+    //  主题: 点赞
+    String TOPIC_LIKE = "like";
+
+    // 主题: 关注
+    String TOPIC_FOLLOW = "follow";
+
+    // 系统用户ID
+    int SYSTEM_USER_ID = 1;
 }
