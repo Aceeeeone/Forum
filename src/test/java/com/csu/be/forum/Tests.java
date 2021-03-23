@@ -1,7 +1,9 @@
 package com.csu.be.forum;
 
 import com.csu.be.forum.dao.DiscussPostMapper;
+import com.csu.be.forum.entity.Comment;
 import com.csu.be.forum.entity.User;
+import com.csu.be.forum.service.CommentService;
 import com.csu.be.forum.service.FollowService;
 import com.csu.be.forum.util.SensitiveFilter;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -17,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.sound.midi.Soundbank;
+import java.util.List;
 
 /**
  * @author nql
@@ -39,6 +42,9 @@ public class Tests {
     @Autowired
     private Consumer consumer;
 
+    @Autowired
+    private CommentService commentService;
+
     @Test
     public void test(){
         String version = SpringBootVersion.getVersion();
@@ -54,10 +60,20 @@ public class Tests {
     }
 
     @Test
+    public void commentTest(){
+        int userCommentCount = commentService.findUserCommentCount(111);
+        List<Comment> list = commentService.findUserComments(111, 0, 10);
+        for (Comment comment : list) {
+            System.out.println(comment.toString());
+        }
+    }
+
+    @Test
     public void followeeTest(){
         long followeeCount = followService.findFolloweeCount(154, 3);
         System.out.println(followeeCount);
     }
+
 
     @Test
     public void testKafka(){

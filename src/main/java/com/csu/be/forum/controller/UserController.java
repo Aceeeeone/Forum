@@ -1,10 +1,11 @@
 package com.csu.be.forum.controller;
 
 import com.csu.be.forum.annotation.LoginRequired;
+import com.csu.be.forum.entity.Comment;
+import com.csu.be.forum.entity.DiscussPost;
+import com.csu.be.forum.entity.Page;
 import com.csu.be.forum.entity.User;
-import com.csu.be.forum.service.FollowService;
-import com.csu.be.forum.service.LikeService;
-import com.csu.be.forum.service.UserService;
+import com.csu.be.forum.service.*;
 import com.csu.be.forum.util.ForumConstant;
 import com.csu.be.forum.util.ForumUtil;
 import com.csu.be.forum.util.HostHolder;
@@ -18,10 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +28,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,6 +61,12 @@ public class UserController implements ForumConstant {
 
     @Autowired
     private FollowService followService;
+
+    @Autowired
+    private DiscussPostService discussPostService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private HostHolder hostHolder;
@@ -168,5 +175,76 @@ public class UserController implements ForumConstant {
         model.addAttribute("hasFollowed", hasFollowed);
 
         return "/site/profile";
+    }
+
+    @GetMapping("/profilepost/{userId}")
+    public String getProfilePost(@PathVariable("userId") int userId, Model model, Page page) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        model.addAttribute("user", user);
+
+        int discussPostRows = discussPostService.findDiscussPostRows(userId);
+        page.setRows(discussPostRows);
+        page.setPath("/user/profilepost/" + userId);
+        page.setLimit(5);
+
+        List<DiscussPost> list = discussPostService.findDiscussPosts(userId, page.getOffset(), page.getLimit());
+        List<Map<String, Object>> discussPosts = new ArrayList<>();
+        if (list != null) {
+            for (DiscussPost post : list) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("post", post);
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
+                map.put("likeCount", likeCount);
+
+                discussPosts.add(map);
+            }
+        }
+        model.addAttribute("discussCount", discussPostRows);
+        model.addAttribute("discussPosts", discussPosts);
+
+        return "/site/my-post";
+    }
+
+    @GetMapping("/profilereply/{userId}")
+    public String getProfileReply(@PathVariable("userId") int userId, Model model, Page page) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        model.addAttribute("user", user);
+
+
+        int commentCount = commentService.findUserCommentCount(userId);
+        page.setRows(commentCount);
+        page.setPath("/user/profilereply/" + userId);
+        page.setLimit(5);
+
+        List<Comment> list = commentService.findUserComments(userId, page.getOffset(), page.getLimit());
+        List<Map<String, Object>> comments = new ArrayList<>();
+        if (list != null) {
+            for (Comment comment : list) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("comment", comment);
+
+                DiscussPost post;
+                if (comment.getEntityType() == ENTITY_TYPE_COMMENT) {
+                    int postId = commentService.findCommentById(comment.getEntityId()).getEntityId();
+                    post = discussPostService.findDiscussPostById(postId);
+                } else {
+                    post = discussPostService.findDiscussPostById(comment.getEntityId());
+                }
+
+                map.put("post", post);
+
+                comments.add(map);
+            }
+        }
+        model.addAttribute("commentCount", commentCount);
+        model.addAttribute("comments", comments);
+
+        return "/site/my-reply";
     }
 }

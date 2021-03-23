@@ -133,7 +133,7 @@
 									用户 <i th:utext="${followNotice.user.username}">nowcoder</i>
 									关注了你 ...</a>
 								<ul class="d-inline font-size-12 float-right">
-									<li class="d-inline ml-2"><span class="text-primary">共 <i>3</i> 条会话</span></li>
+									<li class="d-inline ml-2"><span class="text-primary">共 <i th:text="${followNotice.count}">3</i> 条会话</span></li>
 								</ul>
 							</div>
 						</div>
