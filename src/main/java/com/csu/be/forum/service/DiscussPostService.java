@@ -3,7 +3,6 @@ package com.csu.be.forum.service;
 import com.csu.be.forum.dao.DiscussPostMapper;
 import com.csu.be.forum.entity.DiscussPost;
 import com.csu.be.forum.util.SensitiveFilter;
-import com.sun.deploy.net.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;

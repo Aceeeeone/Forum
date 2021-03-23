@@ -129,6 +129,6 @@ public class DiscussPostController implements ForumConstant {
         }
         model.addAttribute("comments", commentVoList);
 
-        return "/site/discuss-detail";
+        return "site/discuss-detail";
     }
 }

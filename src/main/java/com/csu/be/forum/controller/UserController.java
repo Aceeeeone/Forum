@@ -74,7 +74,7 @@ public class UserController implements ForumConstant {
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     @LoginRequired
     public String getSettingPage() {
-        return "/site/setting";
+        return "site/setting";
     }
 
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
@@ -89,7 +89,7 @@ public class UserController implements ForumConstant {
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         if (suffix == null) {
             model.addAttribute("error", "文件格式不正确！");
-            return "/site/setting";
+            return "site/setting";
         }
 
         // 文件存放
@@ -146,7 +146,7 @@ public class UserController implements ForumConstant {
         } else {
             model.addAttribute("oldPasError", map.get("oldPasError"));
             model.addAttribute("newPasError", map.get("newPasError"));
-            return "/site/setting";
+            return "site/setting";
         }
     }
 
@@ -174,7 +174,7 @@ public class UserController implements ForumConstant {
         }
         model.addAttribute("hasFollowed", hasFollowed);
 
-        return "/site/profile";
+        return "site/profile";
     }
 
     @GetMapping("/profilepost/{userId}")
@@ -205,7 +205,7 @@ public class UserController implements ForumConstant {
         model.addAttribute("discussCount", discussPostRows);
         model.addAttribute("discussPosts", discussPosts);
 
-        return "/site/my-post";
+        return "site/my-post";
     }
 
     @GetMapping("/profilereply/{userId}")
@@ -245,6 +245,6 @@ public class UserController implements ForumConstant {
         model.addAttribute("commentCount", commentCount);
         model.addAttribute("comments", comments);
 
-        return "/site/my-reply";
+        return "site/my-reply";
     }
 }

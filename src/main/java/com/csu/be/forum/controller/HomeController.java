@@ -58,7 +58,7 @@ public class HomeController implements ForumConstant {
             }
         }
         model.addAttribute("discussPosts", discussPosts);
-        return "/index";
+        return "index";
     }
 
     @RequestMapping(path = "/error", method = RequestMethod.GET)
