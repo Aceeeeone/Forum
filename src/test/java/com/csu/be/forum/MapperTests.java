@@ -44,9 +44,6 @@ public class MapperTests {
 
         user = userMapper.selectByName("aaa");
         System.out.println(user);
-
-        user = userMapper.selectByEmail("nowcoder117@sina.com");
-        System.out.println(user);
     }
 
     @Test
@@ -55,21 +52,6 @@ public class MapperTests {
         System.out.println(user);
     }
 
-
-    @Test
-    public void testInsertUser(){
-        User user = new User();
-        user.setUsername("test");
-        user.setPassword("123456");
-        user.setSalt("abc");
-        user.setEmail("test@qq.com");
-        user.setHeaderUrl("http://www.nowcoder.com/101.png");
-        user.setCreateTime(new Date());
-
-        int rows = userMapper.insertUser(user);
-        System.out.println(rows);
-        System.out.println(user.getId());
-    }
 
     @Test
     public void testUpdate(){

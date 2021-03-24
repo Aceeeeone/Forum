@@ -63,7 +63,9 @@ public class LoginController implements ForumConstant {
         Map<String, Object> map = userService.register(user);
         if (map == null || map.isEmpty()) {
             model.addAttribute("msg", "注册成功，我们已经向您的注册邮箱发送了一封激活邮件，请尽快激活！");
-            model.addAttribute("target", "/index");
+            String mailUrl = "https://mail." + user.getEmail().split("@")[1];
+//            model.addAttribute("target", "/index");
+            model.addAttribute("target", mailUrl);
             return "site/operate-result";
         } else {
             model.addAttribute("usernameMsg", map.get("usernameMsg"));
@@ -73,7 +75,6 @@ public class LoginController implements ForumConstant {
         }
     }
 
-    // http://localhost:8080/forum/activation/101/code
     @RequestMapping(path = "/activation/{userId}/{code}", method = RequestMethod.GET)
     public String activation(Model model, @PathVariable("userId") int userId, @PathVariable("code") String code) {
         int res = userService.activation(userId, code);

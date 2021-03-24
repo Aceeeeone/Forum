@@ -1,5 +1,6 @@
 package com.csu.be.forum.controller;
 
+import com.csu.be.forum.annotation.LoginRequired;
 import com.csu.be.forum.entity.Event;
 import com.csu.be.forum.entity.User;
 import com.csu.be.forum.event.EventProducer;
@@ -35,6 +36,7 @@ public class LikeController implements ForumConstant {
 
     @RequestMapping(path = "/like", method = RequestMethod.POST)
     @ResponseBody
+    @LoginRequired
     public String like(int entityType, int entityId, int entityUserId, int postId) {
         User user = hostHolder.getUser();
 

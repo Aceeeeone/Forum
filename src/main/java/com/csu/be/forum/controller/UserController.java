@@ -9,6 +9,13 @@ import com.csu.be.forum.service.*;
 import com.csu.be.forum.util.ForumConstant;
 import com.csu.be.forum.util.ForumUtil;
 import com.csu.be.forum.util.HostHolder;
+import com.qcloud.cos.COSClient;
+import com.qcloud.cos.ClientConfig;
+import com.qcloud.cos.auth.BasicCOSCredentials;
+import com.qcloud.cos.auth.COSCredentials;
+import com.qcloud.cos.model.PutObjectRequest;
+import com.qcloud.cos.region.Region;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Update;
 import org.apache.tomcat.jni.Multicast;
 import org.slf4j.Logger;
@@ -22,12 +29,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +58,17 @@ public class UserController implements ForumConstant {
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
+    @Value("${tencent.secret.id}")
+    private String tencentSecretid;
+    @Value("${tencent.secret.key}")
+    private String tencentSecretKey;
+    @Value("${tencent.region}")
+    private String tencentRegion;
+    @Value("${tencent.bucket}")
+    private String tencentBucket;
+    @Value("${tencent.community.url}")
+    private String tencentUrl;
+
     @Autowired
     private UserService userService;
 
@@ -71,13 +87,74 @@ public class UserController implements ForumConstant {
     @Autowired
     private HostHolder hostHolder;
 
+    private COSClient cosClient;
+
+    @PostConstruct
+    public void init() {
+        // 1 初始化用户身份信息（secretId, secretKey）。
+        COSCredentials cred = new BasicCOSCredentials(tencentSecretid, tencentSecretKey);
+// 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
+// clientConfig 中包含了设置 region, https(默认 http), 超时, 代理等 set 方法, 使用可参见源码或者常见问题 Java SDK 部分。
+        Region region = new Region(tencentRegion);
+        ClientConfig clientConfig = new ClientConfig(region);
+// 3 生成 cos 客户端。
+        cosClient = new COSClient(cred, clientConfig);
+    }
+
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     @LoginRequired
     public String getSettingPage() {
         return "site/setting";
     }
 
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
+    /**
+     * 腾讯对象存储上传头像
+     *
+     * @param file
+     * @return
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String updateHeaderUrl(@RequestParam("file") MultipartFile file , Model model) throws IOException {
+//        if (file == null || file.isEmpty() || "".equals(file.getOriginalFilename())) {
+//            return ForumUtil.getJSONString(1, "文件不能为空！");
+//        }
+        if (file == null) {
+            model.addAttribute("error", "您还没有选择图片！");
+            return "/site/setting";
+        }
+
+        String fileName = file.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf("."));
+        if (suffix == null) {
+            model.addAttribute("error", "文件格式不正确！");
+            return "site/setting";
+        }
+
+        //上传头像
+        File toFile = null;
+
+        InputStream ins = file.getInputStream();
+        toFile = new File(file.getOriginalFilename());
+        OutputStream os = new FileOutputStream(toFile);
+        int bytesRead = 0;
+        byte[] buffer = new byte[1024];
+        while ((bytesRead = ins.read(buffer, 0, buffer.length)) != -1) {
+            os.write(buffer, 0, bytesRead);
+        }
+        os.close();
+        ins.close();
+        String headerName = ForumUtil.generateUUID();
+// 指定文件上传到 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下
+        PutObjectRequest putObjectRequest = new PutObjectRequest(tencentBucket, headerName, toFile);
+        cosClient.putObject(putObjectRequest);
+        toFile.delete();
+
+        String newHeaderUrl = tencentUrl + "/" + headerName;
+        userService.updateHeader(hostHolder.getUser().getId(), newHeaderUrl);
+        return "redirect:/index";
+    }
+
+/*    @RequestMapping(path = "/upload", method = RequestMethod.POST)
     @LoginRequired
     private String uploadHeader(MultipartFile headerImage, Model model) {
         if (headerImage == null) {
@@ -109,7 +186,7 @@ public class UserController implements ForumConstant {
         userService.updateHeader(user.getId(), headUrl);
 
         return "redirect:/index";
-    }
+    }*/
 
     @RequestMapping(path = "/header/{fileName}", method = RequestMethod.GET)
     public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response) {

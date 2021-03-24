@@ -41,4 +41,13 @@ public interface ForumConstant {
 
     // 系统用户ID
     int SYSTEM_USER_ID = 1;
+
+    // 普通用户ID
+    int COMMON_USER_ID = 0;
+
+    // 用户账户未激活状态
+    int USER_Status_UNACTIVATION = 0;
+
+    // 用户账户未激活状态
+    int USER_Status_ACTIVATION = 1;
 }

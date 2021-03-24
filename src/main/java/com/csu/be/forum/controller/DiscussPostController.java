@@ -1,5 +1,6 @@
 package com.csu.be.forum.controller;
 
+import com.csu.be.forum.annotation.LoginRequired;
 import com.csu.be.forum.entity.Comment;
 import com.csu.be.forum.entity.DiscussPost;
 import com.csu.be.forum.entity.Page;
@@ -47,6 +48,7 @@ public class DiscussPostController implements ForumConstant {
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     @ResponseBody
+    @LoginRequired
     public String addDisscussPost(String title, String content) {
         User user = hostHolder.getUser();
         if (user == null) {
@@ -71,6 +73,8 @@ public class DiscussPostController implements ForumConstant {
         //作者
         User user = userService.findUserById(post.getUserId());
         model.addAttribute("user", user);
+
+        model.addAttribute("loginUser",hostHolder.getUser());
         //赞
         long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
         model.addAttribute("likeCount", likeCount);

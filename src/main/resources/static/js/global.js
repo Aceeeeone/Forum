@@ -1,4 +1,4 @@
-var CONTEXT_PATH = "/forum";
+var CONTEXT_PATH = "";
 
 window.alert = function(message) {
 	if(!$(".alert-box").length) {
@@ -16,7 +16,7 @@ window.alert = function(message) {
 						'<p></p>'+
 					'</div>'+
 					'<div class="modal-footer">'+
-						'<button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>'+
+						'<button type="button" id="commitBtn" class="btn btn-secondary" data-dismiss="modal">确定</button>'+
 					'</div>'+
 					'</div>'+
 				'</div>'+
@@ -31,4 +31,5 @@ window.alert = function(message) {
 	
 	$(".alert-box .modal-body p").text(message);
 	$(".alert-box").modal("show");
+
 }

@@ -1,9 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="https://static.nowcoder.com/images/logo_87_87.png"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	<link rel="stylesheet" href="../css/global.css" />
 	<title>学术交流贴吧-搜索结果</title>
@@ -37,21 +36,21 @@
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<img src="http://images.nowcoder.com/head/1t.png" class="rounded-circle" style="width:30px;"/>
+									<img src="#" class="rounded-circle" style="width:30px;"/>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 									<a class="dropdown-item text-center" href="profile.html">个人主页</a>
 									<a class="dropdown-item text-center" href="setting.html">账号设置</a>
 									<a class="dropdown-item text-center" href="login.html">退出登录</a>
 									<div class="dropdown-divider"></div>
-									<span class="dropdown-item text-center text-secondary">nowcoder</span>
+									<span class="dropdown-item text-center text-secondary">Alex</span>
 								</div>
 							</li>
 						</ul>
 						<!-- 搜索 -->
-						<form class="form-inline my-2 my-lg-0" action="search.html">
+						<form class="form-inline my-2 my-lg-0" action="#">
 							<input class="form-control mr-sm-2" type="search" aria-label="Search" />
-							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">搜索</button>
+							<button class="btn btn-outline-light my-2 my-sm-0" type="#">搜索</button>
 						</form>
 					</div>
 				</nav>
@@ -65,100 +64,24 @@
 				<!-- 帖子列表 -->
 				<ul class="list-unstyled mt-4">
 					<li class="media pb-3 pt-3 mb-3 border-bottom">
-						<img src="http://images.nowcoder.com/head/1t.png" class="mr-4 rounded-circle" alt="用户头像">
+						<img src="#" class="mr-4 rounded-circle" alt="用户头像">
 						<div class="media-body">
 							<h6 class="mt-0 mb-3">
-								<a href="discuss-detail.html">备战<em>春招</em>，面试刷题跟他复习，一个月全搞定！</a>
+								<a href="discuss-detail.html">快来学习！</a>
 							</h6>
 							<div class="mb-3">
 								近年来，作为一种新的感知环境、收集数据和提供信息服务的模式，群智感知逐渐成为当前的研究热点之一。
 							</div>
 							<div class="text-muted font-size-12">
-								<u class="mr-3">寒江雪</u> 发布于 <b>2019-04-15 15:32:18</b>
+								<u class="mr-3">李时珍</u> 发布于 <b>2019-04-15 15:32:18</b>
 								<ul class="d-inline float-right">
-									<li class="d-inline ml-2">赞 11</li>
+									<li class="d-inline ml-2">赞 12</li>
 									<li class="d-inline ml-2">|</li>
-									<li class="d-inline ml-2">回复 7</li>
+									<li class="d-inline ml-2">回复 8</li>
 								</ul>
 							</div>
 						</div>
 					</li>
-					<li class="media pb-3 pt-3 mb-3 border-bottom">
-						<img src="http://images.nowcoder.com/head/1t.png" class="mr-4 rounded-circle" alt="用户头像">
-						<div class="media-body">
-							<h6 class="mt-0 mb-3">
-								<a href="discuss-detail.html">备战<em>春招</em>，面试刷题跟他复习，一个月全搞定！</a>
-							</h6>
-							<div class="mb-3">
-								近年来，作为一种新的感知环境、收集数据和提供信息服务的模式，群智感知逐渐成为当前的研究热点之一。
-							</div>
-							<div class="text-muted font-size-12">
-								<u class="mr-3">寒江雪</u> 发布于 <b>2019-04-15 15:32:18</b>
-								<ul class="d-inline float-right">
-									<li class="d-inline ml-2">赞 11</li>
-									<li class="d-inline ml-2">|</li>
-									<li class="d-inline ml-2">回复 7</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-					<li class="media pb-3 pt-3 mb-3 border-bottom">
-						<img src="http://images.nowcoder.com/head/1t.png" class="mr-4 rounded-circle" alt="用户头像">
-						<div class="media-body">
-							<h6 class="mt-0 mb-3">
-								<a href="discuss-detail.html">备战<em>春招</em>，面试刷题跟他复习，一个月全搞定！</a>
-							</h6>
-							<div class="mb-3">
-								近年来，作为一种新的感知环境、收集数据和提供信息服务的模式，群智感知逐渐成为当前的研究热点之一。
-							</div>
-							<div class="text-muted font-size-12">
-								<u class="mr-3">寒江雪</u> 发布于 <b>2019-04-15 15:32:18</b>
-								<ul class="d-inline float-right">
-									<li class="d-inline ml-2">赞 11</li>
-									<li class="d-inline ml-2">|</li>
-									<li class="d-inline ml-2">回复 7</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-					<li class="media pb-3 pt-3 mb-3 border-bottom">
-						<img src="http://images.nowcoder.com/head/1t.png" class="mr-4 rounded-circle" alt="用户头像">
-						<div class="media-body">
-							<h6 class="mt-0 mb-3">
-								<a href="discuss-detail.html">备战<em>春招</em>，面试刷题跟他复习，一个月全搞定！</a>
-							</h6>
-							<div class="mb-3">
-								近年来，作为一种新的感知环境、收集数据和提供信息服务的模式，群智感知逐渐成为当前的研究热点之一。
-							</div>
-							<div class="text-muted font-size-12">
-								<u class="mr-3">寒江雪</u> 发布于 <b>2019-04-15 15:32:18</b>
-								<ul class="d-inline float-right">
-									<li class="d-inline ml-2">赞 11</li>
-									<li class="d-inline ml-2">|</li>
-									<li class="d-inline ml-2">回复 7</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-					<li class="media pb-3 pt-3 mb-3 border-bottom">
-						<img src="http://images.nowcoder.com/head/1t.png" class="mr-4 rounded-circle" alt="用户头像">
-						<div class="media-body">
-							<h6 class="mt-0 mb-3">
-								<a href="discuss-detail.html">备战<em>春招</em>，面试刷题跟他复习，一个月全搞定！</a>
-							</h6>
-							<div class="mb-3">
-								近年来，作为一种新的感知环境、收集数据和提供信息服务的模式，群智感知逐渐成为当前的研究热点之一。
-							</div>
-							<div class="text-muted font-size-12">
-								<u class="mr-3">寒江雪</u> 发布于 <b>2019-04-15 15:32:18</b>
-								<ul class="d-inline float-right">
-									<li class="d-inline ml-2">赞 11</li>
-									<li class="d-inline ml-2">|</li>
-									<li class="d-inline ml-2">回复 7</li>
-								</ul>
-							</div>
-						</div>
-					</li>																				
 				</ul>
 				<!-- 分页 -->
 				<nav class="mt-5">
@@ -178,12 +101,12 @@
 		</div>
 
 		<!-- 尾部 -->
-		<footer class="bg-dark">
+		<footer class="bg-dark" th:replace="index::footer">
 			<div class="container">
 				<div class="row">
 					<!-- 二维码 -->
 					<div class="col-4 qrcode">
-						<img src="/forum/img/erweima.png" class="img-thumbnail" style="width:136px;" />
+						<img th:src="@{/img/erweima.png}" class="img-thumbnail" style="width:136px;" />
 					</div>
 					<!-- 公司信息 -->
 					<div class="col-8 detail-info">
@@ -228,7 +151,7 @@
 									</li>
 									<li class="nav-item text-white-50">
 										京ICP备20205008号-4 &nbsp;&nbsp;&nbsp;&nbsp;
-										<img src="http://static.nowcoder.com/company/images/res/ghs.png" style="width:18px;" />
+										<img src="https://lnq-1253575029.cos.ap-shanghai.myqcloud.com/system/gonanlogo" style="width:18px;" />
 										京公网安备 20200502036328号
 									</li>
 								</ul>

@@ -3,7 +3,6 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="https://static.nowcoder.com/images/logo_87_87.png"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	<link rel="stylesheet" th:href="@{/css/global.css}" />
 	<link rel="stylesheet" th:href="@{/css/discuss-detail.css}" />
@@ -38,21 +37,21 @@
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<img src="http://images.nowcoder.com/head/1t.png" class="rounded-circle" style="width:30px;"/>
+									<img src="#" class="rounded-circle" style="width:30px;"/>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 									<a class="dropdown-item text-center" href="profile.html">个人主页</a>
 									<a class="dropdown-item text-center" href="setting.html">账号设置</a>
 									<a class="dropdown-item text-center" href="login.html">退出登录</a>
 									<div class="dropdown-divider"></div>
-									<span class="dropdown-item text-center text-secondary">nowcoder</span>
+									<span class="dropdown-item text-center text-secondary">Alex</span>
 								</div>
 							</li>
 						</ul>
 						<!-- 搜索 -->
 						<form class="form-inline my-2 my-lg-0" action="search.html">
 							<input class="form-control mr-sm-2" type="search" aria-label="Search" />
-							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">搜索</button>
+							<button class="btn btn-outline-light my-2 my-sm-0" type="#">搜索</button>
 						</form>
 					</div>
 				</nav>
@@ -65,9 +64,9 @@
 			<div class="container">
 				<!-- 标题 -->
 				<h6 class="mb-4">
-					<img src="http://static.nowcoder.com/images/img/icons/ico-discuss.png"/>
+					<img src="https://lnq-1253575029.cos.ap-shanghai.myqcloud.com/system/ico-discuss" style="width: 26px;"/>
 					<span th:utext="${post.title}">快来发帖交流！</span>
-					<div class="float-right">
+					<div class="float-right" th:if="${loginUser.type}">
 						<button type="button" class="btn btn-danger btn-sm">置顶</button>
 						<button type="button" class="btn btn-danger btn-sm">加精</button>
 						<button type="button" class="btn btn-danger btn-sm">删除</button>
@@ -126,7 +125,7 @@
 									<i th:text="${page.offset + cvoStat.count}">1</i>#
 									</span>
 							</div>
-							<div class="mt-2" th:utext="${cvo.comment.content}">
+							<div class="mt-2"  th:utext="${cvo.comment.content}">
 								这开课时间是不是有点晚啊。。。
 							</div>
 							<div class="mt-4 text-muted font-size-12">
@@ -169,7 +168,7 @@
 											<li class="d-inline ml-2"><a th:href="|#huifu-${rvoStat.count}|" data-toggle="collapse" class="text-primary">回复</a></li>
 										</ul>
 										<div th:id="|huifu-${rvoStat.count}|" class="mt-4 collapse">
-											<form method="post" th:action="@{|/comment/add/${post.id}|}">
+											<form method="post" th:action="@{|/comment/add/${post.id}|}" id="discussSubmit3">
 												<div>
 													<input type="text" class="input-size" name="content" th:placeholder="|回复${rvo.user.username}|"/>
 													<input type="hidden" name="entityType" value="2">
@@ -177,7 +176,7 @@
 													<input type="hidden" name="targetId" th:value="${rvo.user.id}">
 												</div>
 												<div class="text-right mt-2">
-													<button type="submit" class="btn btn-primary btn-sm" onclick="#">&nbsp;&nbsp;回&nbsp;&nbsp;复&nbsp;&nbsp;</button>
+													<button  class="btn btn-primary btn-sm">&nbsp;&nbsp;回&nbsp;&nbsp;复&nbsp;&nbsp;</button>
 												</div>
 											</form>
 										</div>
@@ -185,14 +184,14 @@
 								</li>
 								<!-- 回复输入框 -->
 								<li class="pb-3 pt-3">
-									<form method="post" th:action="@{|/comment/add/${post.id}|}">
+									<form method="post" th:action="@{|/comment/add/${post.id}|}" id="discussSubmit2">
 										<div>
 											<input type="text" class="input-size" name="content" placeholder="请输入你的观点"/>
 											<input type="hidden" name="entityType" value="2">
 											<input type="hidden" name="entityId" th:value="${cvo.comment.id}">
 										</div>
 										<div class="text-right mt-2">
-											<button type="submit" class="btn btn-primary btn-sm" onclick="#">&nbsp;&nbsp;回&nbsp;&nbsp;复&nbsp;&nbsp;</button>
+											<button class="btn btn-primary btn-sm">&nbsp;&nbsp;回&nbsp;&nbsp;复&nbsp;&nbsp;</button>
 										</div>
 									</form>
 								</li>
@@ -217,7 +216,7 @@
 			</div>
 			<!-- 回帖输入 -->
 			<div class="container mt-3">
-				<form class="replyform" method="post" th:action="@{|/comment/add/${post.id}|}">
+				<form class="replyform" method="post" th:action="@{|/comment/add/${post.id}|}" id="discussSubmit1">
 					<p class="mt-3">
 						<a name="replyform"></a>
 						<textarea placeholder="在这里畅所欲言你的看法吧!" name="content"></textarea>
@@ -225,19 +224,19 @@
 						<input type="hidden" name="entityId" th:value="${post.id}">
 					</p>
 					<p class="text-right">
-						<button type="submit" class="btn btn-primary btn-sm">&nbsp;&nbsp;回&nbsp;&nbsp;帖&nbsp;&nbsp;</button>
+						<button class="btn btn-primary btn-sm">&nbsp;&nbsp;回&nbsp;&nbsp;帖&nbsp;&nbsp;</button>
 					</p>
 				</form>
 			</div>
 		</div>
 
 		<!-- 尾部 -->
-		<footer class="bg-dark">
+		<footer class="bg-dark" th:replace="index::footer">
 			<div class="container">
 				<div class="row">
 					<!-- 二维码 -->
 					<div class="col-4 qrcode">
-						<img src="/forum/img/erweima.png" class="img-thumbnail" style="width:136px;" />
+						<img th:src="@{/img/erweima.png}" class="img-thumbnail" style="width:136px;" />
 					</div>
 					<!-- 公司信息 -->
 					<div class="col-8 detail-info">
@@ -282,7 +281,7 @@
 									</li>
 									<li class="nav-item text-white-50">
 										京ICP备20205008号-4 &nbsp;&nbsp;&nbsp;&nbsp;
-										<img src="http://static.nowcoder.com/company/images/res/ghs.png" style="width:18px;" />
+										<img src="https://lnq-1253575029.cos.ap-shanghai.myqcloud.com/system/gonanlogo" style="width:18px;" />
 										京公网安备 20200502036328号
 									</li>
 								</ul>

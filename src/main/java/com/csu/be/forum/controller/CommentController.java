@@ -1,5 +1,6 @@
 package com.csu.be.forum.controller;
 
+import com.csu.be.forum.annotation.LoginRequired;
 import com.csu.be.forum.entity.Comment;
 import com.csu.be.forum.entity.DiscussPost;
 import com.csu.be.forum.entity.Event;
@@ -41,6 +42,7 @@ public class CommentController implements ForumConstant {
     private HostHolder hostHolder;
 
     @RequestMapping(path = "/add/{discussPostId}", method = RequestMethod.POST)
+    @LoginRequired
     public String addComment(@PathVariable("discussPostId") int discussPostId, Comment comment) {
         comment.setUserId(hostHolder.getUser().getId());
         comment.setStatus(0);

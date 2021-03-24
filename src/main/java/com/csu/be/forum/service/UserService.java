@@ -52,6 +52,9 @@ public class UserService implements ForumConstant {
     @Value("${forum.path.domian}")
     private String domian;
 
+    @Value("${tencent.community.url}")
+    private String headerUrl;
+
     //查找用户
     public User findUserById(int id) {
 //        return userMapper.selectById(id);
@@ -99,10 +102,10 @@ public class UserService implements ForumConstant {
         // 注册用户
         user.setSalt(ForumUtil.generateUUID().substring(0, 5));
         user.setPassword(ForumUtil.MD5(user.getPassword() + user.getSalt()));
-        user.setType(0);
-        user.setStatus(0);
+        user.setType(COMMON_USER_ID);
+        user.setStatus(USER_Status_UNACTIVATION);
         user.setActivationCode(ForumUtil.generateUUID());
-        user.setHeaderUrl(String.format("http://images.newcoder.com/head/%dt.png", new Random().nextInt(1000)));
+        user.setHeaderUrl(String.format(headerUrl + "/default-header/default-header" + (new Random().nextInt(20) + 1) + ".jpg"));
         user.setCreateTime(new Date());
         userMapper.insertUser(user);
 
@@ -112,7 +115,7 @@ public class UserService implements ForumConstant {
         // http://localhost:8080/forum/activation/101/code
         String url = domian + contextPath + "/activation/" + user.getId() + "/" + user.getActivationCode();
         context.setVariable("url", url);
-        String content = templateEngine.process("/mail/activation", context);
+        String content = templateEngine.process("mail/activation", context);
         mailClient.sendMail(user.getEmail(), "论坛账号激活", content);
 
         return map;
@@ -121,10 +124,10 @@ public class UserService implements ForumConstant {
     //激活
     public int activation(int userId, String code) {
         User user = userMapper.selectById(userId);
-        if (user.getStatus() == 1) {
+        if (user.getStatus() == USER_Status_ACTIVATION) {
             return ForumConstant.ACTIVATION_REPEAT;
         } else if (user.getActivationCode().equals(code)) {
-            userMapper.updateStatus(userId, 1);
+            userMapper.updateStatus(userId, USER_Status_ACTIVATION);
             clearCache(userId);
             return ForumConstant.ACTIVATION_SUCCESS;
         } else {
@@ -153,7 +156,7 @@ public class UserService implements ForumConstant {
             return map;
         }
 
-        if (user.getStatus() == 0) {
+        if (user.getStatus() == USER_Status_UNACTIVATION) {
             map.put("usernameMsg", "该账号未激活！");
             return map;
         }
