@@ -22,7 +22,7 @@ public class RedisKeyUtil {
         return PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;
     }
 
-    // 用户赞 like:user:userId -> int
+    // 用户赞 like:user:userId -> String
     public static String getUserLikeKey(int userId) {
         return PREFIX_USER_LIKE + SPLIT + userId;
     }
@@ -37,7 +37,7 @@ public class RedisKeyUtil {
         return PREFIX_FOLLOWER + SPLIT + entityType + SPLIT + entityId;
     }
 
-    // 验证码 kaptcha:owner -> value
+    // 验证码 kaptcha:owner -> String
     public static String getKaptcharKey(String owner) {
         return KAPTCHAR + SPLIT + owner;
     }

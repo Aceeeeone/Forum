@@ -66,7 +66,7 @@
 				<h6 class="mb-4">
 					<img src="https://lnq-1253575029.cos.ap-shanghai.myqcloud.com/system/ico-discuss" style="width: 26px;"/>
 					<span th:utext="${post.title}">快来发帖交流！</span>
-					<div class="float-right" th:if="${loginUser.type}">
+					<div class="float-right" th:if="${loginUserType==1}">
 						<button type="button" class="btn btn-danger btn-sm">置顶</button>
 						<button type="button" class="btn btn-danger btn-sm">加精</button>
 						<button type="button" class="btn btn-danger btn-sm">删除</button>

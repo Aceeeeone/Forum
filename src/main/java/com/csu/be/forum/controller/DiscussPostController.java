@@ -74,7 +74,9 @@ public class DiscussPostController implements ForumConstant {
         User user = userService.findUserById(post.getUserId());
         model.addAttribute("user", user);
 
-        model.addAttribute("loginUser",hostHolder.getUser());
+        if (hostHolder.getUser() != null) {
+            model.addAttribute("loginUserType", hostHolder.getUser().getType());
+        }
         //赞
         long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
         model.addAttribute("likeCount", likeCount);

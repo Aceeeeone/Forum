@@ -5,6 +5,7 @@ import com.csu.be.forum.entity.Comment;
 import com.csu.be.forum.entity.User;
 import com.csu.be.forum.service.CommentService;
 import com.csu.be.forum.service.FollowService;
+import com.csu.be.forum.service.UserService;
 import com.csu.be.forum.util.SensitiveFilter;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,9 @@ public class Tests {
     private Consumer consumer;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CommentService commentService;
 
     @Test
@@ -72,6 +76,11 @@ public class Tests {
     public void followeeTest(){
         long followeeCount = followService.findFolloweeCount(154, 3);
         System.out.println(followeeCount);
+    }
+
+    @Test
+    public void UserTest(){
+        System.out.println(userService.findUserById(2).toString());;
     }
 
 
